@@ -28,13 +28,11 @@
 | | Virtual machine name | `vm-workshop-win11` |
 | | Region | `East US 2` |
 | | Image | `Windows 11 Enterprise` |
-| | Size | `Standard_D4s_v5` |
+| | Size | `Standard D8s v6 (8 vcpus, 32 GiB memory)` |
 | | Administrator username | `rafael` |
-| | Administrator password | `<SENHA_RANDOMICA>` |
+| | Administrator password | `mS1+03t#u.N(` |
 | **Networking** | Public inbound ports | `Allow selected ports` |
 | | Select inbound ports | `RDP (3389)` |
-
-> **Sugestao de tamanho**: `Standard_D4s_v5` (4 vCPU, 16 GB). E suficiente para rodar Docker Desktop + MCP com folga. Se quiser economizar, use `Standard_D2s_v5`.
 
 ## Arquitetura VM
 
@@ -91,32 +89,36 @@ No Windows local:
 1. Abrir **Remote Desktop Connection**
 2. Computer: `<IP_PUBLICO>`
 3. Username: `rafael`
-4. Password: `<SENHA_RANDOMICA>`
+4. Password: `mS1+03t#u.N(`
 
 ---
 ## Step 2 — Setup Git + VS Code + Copilot (Windows 11)
 
 ### 2.1 Instalar apps na VM (links oficiais)
 
-- Git: https://git-scm.com/downloads/win
+- Git: https://git-scm.com/install/windows
 - VS Code: https://code.visualstudio.com/download
-- GitHub CLI: https://cli.github.com/
-- Terraform: https://developer.hashicorp.com/terraform/downloads
 - Docker Desktop: https://www.docker.com/products/docker-desktop/
 
 ### 2.1.1 Configurar WSL2 na VM (Windows 11)
 
-- Documentacao oficial (WSL): https://learn.microsoft.com/windows/wsl/install
-- Distribuicoes Linux (Microsoft Store): https://apps.microsoft.com/store/search?query=wsl
-- Docker Desktop + WSL2: https://docs.docker.com/desktop/windows/wsl/
+No **PowerShell (Admin)**:
+
+```powershell
+wsl --install
+```
+
+> Esse comando habilita os componentes necessarios (Virtual Machine Platform, WSL) e instala o Ubuntu por padrao. **Reinicie a VM** apos a instalacao.
+
+Apos reiniciar, abra o **Ubuntu** pelo menu Iniciar e configure usuario/senha.
 
 ### 2.2 Configurar Git (no terminal do Windows)
 
 No **Terminal**:
 
 ```
-git config --global user.name "Seu Nome"
-git config --global user.email "seu@email.com"
+git config --global user.name "Rafael Ferreira"
+git config --global user.email "rafael.low1@gmail.com"
 ```
 
 ### 2.3 Instalar extensoes no VS Code
