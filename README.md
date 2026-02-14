@@ -123,10 +123,9 @@ git config --global user.email "rafael.low1@gmail.com"
 
 ### 2.3 Instalar extensoes no VS Code
 
-- GitHub Copilot
 - GitHub Copilot Chat
 - HashiCorp Terraform
-
+- Microsoft Terraform
 
 ### 2.4 Instalar MCPs no VS Code
 
@@ -137,13 +136,15 @@ git config --global user.email "rafael.low1@gmail.com"
 
 ---
 
+Autentique com o seu github, start nos servers, o MCP do terraform irá falhar, você já autenticado com o github copilot, peça ajuda para resolver o problema, abra o json config. context7 tbm irá falhar, peça ajuda para resolver instalando o que for preciso. Feche e abra o VSCode após instalar o node.
+
 ## Step 3 — Criar os Repositórios no GitHub
 
-**GitHub** → **+** (canto superior direito) → **New repository**
+**[GitHub](https://github.com/)** → **+** (canto superior direito) → **New repository**
 
-| # | Repository name | Description | Visibility |
-|---|----------------|-------------|------------|
-| 1 | `platform-as-a-service-stack2` | Azure PaaS platform with Terraform | **Public** |
+| # | Repository name | Visibility |
+|---|----------------|------------|
+| 1 | `platform-as-a-service`| **Public** |
 
 > Marcar **Add a README file** para inicializar o repo.
 
@@ -177,7 +178,7 @@ git clone git@github.com:<SEU_USER>/pipeline-as-a-service-stack.git
 
 ### 4.1 Criar App Registration (Service Principal)
 
-**Portal Azure** → **Microsoft Entra ID** → **App registrations** → **New registration**
+**[Portal Azure](portal.azure.com)** → **Microsoft Entra ID** → **App registrations** → **New registration**
 
 | Campo | Valor |
 |-------|-------|
