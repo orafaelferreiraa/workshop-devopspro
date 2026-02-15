@@ -1,6 +1,37 @@
-# Workshop DevOps Pro — Cheat Sheet
+# Workshop DevOps Pro
 
 > **Objetivo**: Construir uma plataforma completa no Azure usando Terraform + GitHub Actions com Vibe Coding (GitHub Copilot) — do zero ao deploy.
+
+---
+
+## O que é Engenharia de Plataforma?
+
+Imagine que cada time de desenvolvimento precisa construir a própria casa antes de começar a morar nela — instalar encanamento, eletricidade, internet, alarme... **toda vez, do zero**. Isso é o que acontece quando não existe uma plataforma.
+
+ O time de plataforma entrega a infraestrutura completa: rede, segurança, banco de dados, monitoramento. E os times de produto só precisam se preocupar com o que realmente importa: **o código do produto**.
+
+### Por que usar?
+
+| Problema sem plataforma | Solução com plataforma |
+|------------------------|----------------------|
+| Cada time configura infra do zero | Infra pronta em minutos com feature flags |
+| Configurações inconsistentes entre times | Padrão único, seguro e auditável |
+| Deploy manual e propenso a erros | Pipeline automatizada (CI/CD) |
+| Semanas para subir um ambiente | Minutos para provisionar tudo |
+
+### Na prática (o que vamos construir)
+
+```
+Dev pede um ambiente → Liga os feature flags → Terraform cria tudo → App roda em Container Apps
+```
+
+Tudo **automatizado**, **seguro** e **repetível**. O desenvolvedor não precisa saber como a rede funciona, ele só precisa saber o nome da imagem Docker.
+
+![](./img/2.png)
+
+---
+
+## Arquitetura da Plataforma
 
 ```mermaid
 graph TD
