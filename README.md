@@ -134,30 +134,19 @@ git config --global user.email "rafael.low1@gmail.com"
 - Microsoft Learn
 - context7
 
-#### Configuração dos MCPs
-
-1. **Autenticar com GitHub**
-2. **Iniciar os servidores MCP**
-3. **Resolver erro do Terraform MCP**: 
-   - O MCP Terraform pode falhar na primeira execução
-   - Abra o arquivo de configuração JSON dos MCPs
-   - Peça ajuda ao GitHub Copilot para resolver
-4. **Resolver erro do Context7**:
-   - O Context7 também irá falhar pois requer Node.js instalado
-   - Peça ajuda ao GitHub Copilot com a instalação
-5. **Passo importante**: Feche e reabra o VS Code para aplicar as mudanças
-
 ---
+
+Autentique com o seu github, start nos servers, o MCP do terraform irá falhar, você já autenticado com o github copilot, peça ajuda para resolver o problema, abra o json config. context7 tbm irá falhar, peça ajuda para resolver instalando o que for preciso. Feche e abra o VSCode após instalar o node.
 
 ## Step 3 — Criar os Repositórios no GitHub
 
-**https://github.com/** → **+** (canto superior direito) → **New repository**
+**[GitHub](https://github.com/)** → **+** (canto superior direito) → **New repository**
 
 | # | Repository name | Visibility |
 |---|----------------|------------|
 | 1 | `platform-as-a-service`| **Public** |
 
-> Marcar **Add a README file** para inicializar o repo  
+> Marcar **Add a README file** para inicializar o repo.
 
 ### 3.2 Gerar chave SSH e clonar os repos
 
@@ -189,36 +178,33 @@ git clone git@github.com:<SEU_USER>/pipeline-as-a-service-stack.git
 
 ### 4.1 Criar App Registration (Service Principal)
 
-**portal.azure.com** → **Microsoft Entra ID** → **App registrations** → **New registration**
+**[Portal Azure](portal.azure.com)** → **Microsoft Entra ID** → **App registrations** → **New registration**
 
 | Campo | Valor |
 |-------|-------|
 | Name | `sp-workshop-devopspro` |
 | Supported account types | `Single tenant` |
 
+Após criar, anotar:
+
+| Dado | Onde encontrar |
+|------|----------------|
+| `Client ID` | App registration → **Overview** → Application (client) ID |
+| `Tenant ID` | App registration → **Overview** → Directory (tenant) ID |
+| `Subscription ID` | **Subscriptions** → copiar o ID da subscription |
+
 ### 4.2 Criar Client Secret
 
 **App registration** → `sp-workshop-devopspro` → **Certificates & secrets** → **New client secret**
 
-```
-workshop-secret
-```
+| Campo | Valor |
+|-------|-------|
+| Description | `workshop-secret` |
+| Expires | `6 months` |
 
 > **Copiar o Value** imediatamente (não aparece de novo).
 
-### 4.3 Configurar Secrets no GitHub
-
-**GitHub** → repo `platform-as-a-service-stack2` → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
-
-| Secret name | Value |
-|-------------|-------|
-| `AZURE_CLIENT_ID` | `<Application (client) ID>` |
-| `AZURE_TENANT_ID` | `<Directory (tenant) ID>` |
-| `AZURE_SUBSCRIPTION_ID` | `<Subscription ID>` |
-| `AZURE_CLIENT_SECRET` | `<Secret Value>` |
-
-
-### 4.4 Atribuir Roles na Subscription
+### 4.3 Atribuir Roles na Subscription
 
 **Portal** → **Subscriptions** → selecionar sua subscription → **Access control (IAM)** → **Add role assignment**
 
@@ -230,6 +216,18 @@ Repetir para as 2 roles:
 | `User Access Administrator` | `sp-workshop-devopspro` | Criar role assignments (RBAC) usados pelo Terraform |
 
 > Em cada uma: Tab **Role** → selecionar a role → Tab **Members** → **Select members** → buscar `sp-workshop-devopspro` → **Review + assign**
+
+### 4.4 Configurar Secrets no GitHub
+
+**GitHub** → repo `platform-as-a-service-stack2` → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
+
+| Secret name | Value |
+|-------------|-------|
+| `AZURE_CLIENT_ID` | `<Application (client) ID>` |
+| `AZURE_CLIENT_SECRET` | `<Secret Value>` |
+| `AZURE_TENANT_ID` | `<Directory (tenant) ID>` |
+| `AZURE_SUBSCRIPTION_ID` | `<Subscription ID>` |
+
 ---
 
 ## Step 5 — Prompt para Criar a Plataforma com Copilot
@@ -241,10 +239,14 @@ Abrir o Copilot Chat e enviar:
 ```
 Crie um prompt para criar uma engenharia de plataforma utilizando azure + terraform + github actions.
 Managed Identity, VNet Spoke + Subnets, Key Vault (RBAC), Storage Account, Event Grid, Service Bus, SQL Server + Database, Log Analytics + App Insights, Azure Container Apps
+
 ```
+
+
 Ou se quiser ser mais acertivo, use esse :D
 
 ```
+---
 name: platform-create
 description: Generate an identical Platform-as-a-Service Stack (Azure + Terraform + GitHub Actions)
 argument-hint: "[platform-name]"
@@ -257,6 +259,7 @@ tools:
   - mcp_microsoftdocs
   - mcp_hashicorp
   - mcp_github
+---
 
 # Platform Stack Creation Prompt (Assertive)
 
@@ -284,7 +287,7 @@ Crie uma engenharia de plataforma Azure **identica** ao repo Platform-as-a-Servi
 - Outputs apenas IDs/URIs (nunca secrets)
 
 3) **Estrutura**
-
+```
 terraform/
   main.tf
   variables.tf
@@ -303,7 +306,7 @@ terraform/
     workloads/sql
     workloads/observability
     workloads/container-apps
-
+```
 
 4) **Backend remoto**
 - Azure Blob Storage com `use_azuread_auth = true`
@@ -319,6 +322,7 @@ terraform/
 ## Saida
 - Entregar todos os arquivos completos (main.tf/variables.tf/outputs.tf/providers.tf/backend.tf + modulos)
 - Garantir que Container Apps falhe se observability = false
+
 ```
 
 ### 5.4 Commit e Push (para cada repo)
@@ -365,7 +369,7 @@ git push
 | Campo | Valor |
 |-------|-------|
 | Name | `tfstate` |
-| Public access level | `Container` |
+| Public access level | `Private` |
 
 ### 6.4 Atribuir RBAC no Storage Account
 
@@ -394,6 +398,17 @@ terraform {
   }
 }
 ```
+## Validação Final
+
+| Check | Como validar |
+|-------|-------------|
+| Repos criados | GitHub → Your repositories → verificar o repo |
+| Secrets configurados | GitHub → repo → Settings → Secrets → verificar 4 secrets |
+| Pipeline rodando | Abrir PR no `platform-as-a-service-stack` → tab **Actions** |
+| State remoto | `terraform init` sem erros no backend azurerm |
+| Plan limpo | `terraform plan` sem erros |
+
+---
 
 ## Step 7 — Advanced 
 
