@@ -394,15 +394,6 @@ terraform/
 - Entregar todos os arquivos completos (main.tf/variables.tf/outputs.tf/providers.tf/backend.tf + modulos)
 - Garantir que Container Apps falhe se observability = false
 ```
-
-### 5.4 Commit e Push (para cada repo)
-
-```bash
-git add .
-git commit -m "initial platform setup"
-git push
-```
-
 ---
 
 ## Step 6 — Setup Backend Terraform no Azure
@@ -468,6 +459,15 @@ terraform {
   }
 }
 ```
+
+### Commit e Push
+
+```bash
+git add .
+git commit -m "initial platform setup"
+git push
+```
+---
 
 ## Step 7 — Advanced 
 
