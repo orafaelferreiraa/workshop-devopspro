@@ -56,7 +56,7 @@ Neste workshop, você aprenderá a construir uma **plataforma Azure profissional
 - ✅ Dependency injection entre módulos
 - ✅ RBAC automático com `uuidv5()`
 - ✅ **LIVE CODING**: Deploy completo com GitHub Actions
-  - Validação (TFLint, tfsec, Checkov)
+  - Validação (TFLint, Trivy, Checkov)
   - Terraform plan + apply
   - State protection
 - ✅ RBAC-first strategy (RBAC-first strategy, sem shared keys)
@@ -88,10 +88,10 @@ Neste workshop, você aprenderá a construir uma **plataforma Azure profissional
 
 | Categoria | Tecnologias |
 |-----------|------------|
-| **IaC** | Terraform 1.9.0+, Providers (azurerm, random, time) |
+| **IaC** | Terraform 1.14.0+, Providers (azurerm, random, time) |
 | **Cloud** | Azure (11 serviços), Managed Identity, RBAC, AD Auth |
 | **CI/CD** | GitHub Actions, Reusable Workflows, SARIF Reports |
-| **Segurança** | TFLint, tfsec, Checkov, terraform fmt, terraform-docs |
+| **Segurança** | TFLint, Trivy, Checkov, terraform fmt, terraform-docs |
 | **IDE** | VS Code, GitHub Copilot, Docker, WSL2 |
 | **Patterns** | Feature Flags, Composition, Dependency Injection, RBAC-First |
 

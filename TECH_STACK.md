@@ -17,10 +17,10 @@
 ### Terraform
 | Componente | Descrição | Uso |
 |-----------|-----------|-----|
-| **Terraform Core** | `>= 1.9.0` | Orquestração e provisionamento de infraestrutura |
-| **Providers** | `azurerm ~> 4.57`  | Azure Resource Manager - gerenciamento de recursos Azure |
-| | `random ~> 3.8` | Geração de sufixos aleatórios para naming |
-| | `time ~> 0.13` | Delay de propagação RBAC (180s) |
+| **Terraform Core** | `~> 1.14` | Orquestração e provisionamento de infraestrutura |
+| **Providers** | `azurerm ~> 4.64.0`  | Azure Resource Manager - gerenciamento de recursos Azure |
+| | `random ~> 3.8.1` | Geração de sufixos aleatórios para naming |
+| | `time ~> 0.13.1` | Delay de propagação RBAC (180s) |
 | **Backend** | Azure Blob Storage | State remoto com autenticação Azure AD (`use_azuread_auth = true`) |
 | **Versioning** | Semantic Versioning | 3.0.0 (completo com feature flags + RBAC) |
 
@@ -132,10 +132,10 @@
 - **Scope**: Best practices + style guide
 - **Flag**: `enable_tflint` (default: true)
 
-#### 3️⃣ tfsec (Security Scanning)
-- **Tool**: `tfsec` v1.0.3
+#### 3️⃣ Trivy (Security Scanning)
+- **Tool**: Trivy `aquasecurity/trivy-action@0.35.0`
 - **Output**: SARIF → GitHub Security tab
-- **Flag**: `enable_tfsec` (default: true)
+- **Flag**: `enable_trivy` (default: true)
 
 #### 4️⃣ Checkov (Policy Compliance)
 - **Tool**: `checkov` (pip) com Python 3.12
@@ -166,6 +166,7 @@
 | `actions/cache@v4` | Caching de dependências |
 | `hashicorp/setup-terraform@v3` | Setup Terraform |
 | `terraform-linters/setup-tflint@v4` | Setup TFLint |
+| `aquasecurity/trivy-action@0.35.0` | Trivy security scanning |
 | `actions/setup-python@v5` | Setup Python 3.12 (Checkov) |
 | `github/codeql-action/upload-sarif@v4` | Upload SARIF reports |
 | `terraform-docs/gh-actions@v1.3.0` | Docs generation |
@@ -184,7 +185,7 @@
 ### Security Scanning
 | Tool | Função | Output |
 |------|--------|--------|
-| **tfsec** | SAST para Terraform | SARIF (GitHub Security) |
+| **Trivy** | SAST para Terraform | SARIF (GitHub Security) |
 | **Checkov** | Policy compliance IaC | SARIF (GitHub Security) |
 
 ### Documentation
@@ -331,7 +332,7 @@ resource "time_sleep" "wait_for_rbac_propagation" {
 | **IaC & Orquestração** | 3 | Terraform, Providers (azurerm, random, time) |
 | **Azure Cloud Services** | 11 | Container Apps, Storage, SQL, Service Bus, Event Grid, Key Vault, Log Analytics, ACR, VNet, Managed Identity, App Insights |
 | **CI/CD & Automation** | 8 | GitHub Actions, pipeline-core, deploy-plan, deploy-apply, Caching, SARIF upload, State protection |
-| **Validation & Security** | 5 | TFLint, tfsec, Checkov, terraform-docs, terraform fmt |
+| **Validation & Security** | 5 | TFLint, Trivy, Checkov, terraform-docs, terraform fmt |
 | **Development & IDE** | 6 | VS Code, GitHub Copilot, Docker, Git, PowerShell, WSL2 |
 | **Architecture Patterns** | 7 | Feature Flags, Composition, Dependency Injection, Convention over Config, Reusable Workflows, RBAC-First, Time Sync |
 
@@ -357,7 +358,7 @@ resource "time_sleep" "wait_for_rbac_propagation" {
 - [ ] Module composition
 - [ ] Dynamic blocks
 - [ ] Feature flags via booleans
-- [ ] Outputs (nunca secrets)
+- [ ] Outputs (apenas nomes/FQDNs/URIs, sem resource IDs)
 - [ ] Remote state (Azure Blob)
 - [ ] Azure AD auth para state
 - [ ] uuidv5 para determinismo
@@ -383,7 +384,7 @@ resource "time_sleep" "wait_for_rbac_propagation" {
 - [ ] Deterministic naming (MD5)
 - [ ] Secrets in Key Vault
 - [ ] Time-based synchronization
-- [ ] IaC scanning (tfsec, Checkov)
+- [ ] IaC scanning (Trivy, Checkov)
 - [ ] Drift detection (terraform-docs)
 - [ ] State locking + encryption
 

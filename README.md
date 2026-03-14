@@ -355,7 +355,7 @@ Crie uma engenharia de plataforma Azure **identica** ao repo Platform-as-a-Servi
 - `time_sleep` 180s entre role assignment e criacao de secrets/containers
 - Contagem de modulos SOMENTE por boolean `enable_*` (sem null checks)
 - Orquestracao somente em `terraform/main.tf` (sem dependencias entre modulos)
-- Outputs apenas IDs/URIs (nunca secrets)
+- Outputs apenas nomes, FQDNs e URIs (sem IDs de recursos, sem secrets)
 
 3) **Estrutura**
 
@@ -383,7 +383,7 @@ terraform/
 - Azure Blob Storage com `use_azuread_auth = true`
 
 5) **Workflows GitHub Actions**
-- `deploy-plan.yml`: PR + manual → validacao (fmt, tflint, tfsec, checkov, terraform-docs) + plan
+- `deploy-plan.yml`: PR + manual → validacao (fmt, tflint, trivy, checkov, terraform-docs) + plan
 - `deploy-apply.yml`: push main + manual → apply
 - Usar secrets `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`
 
@@ -490,9 +490,9 @@ jobs:
     uses: <SEU_USER>/pipeline-as-a-service-stack/.github/workflows/pipeline-core.yaml@main
     with:
       terraform_dir: terraform
-      terraform_version: "~1.9.0"
+      terraform_version: "~1.14.0"
       enable_tflint: true
-      enable_tfsec: true
+      enable_trivy: true
       enable_checkov: true
       generate_tfdocs: false
 ```
