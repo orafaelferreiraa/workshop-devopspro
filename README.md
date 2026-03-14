@@ -254,7 +254,7 @@ Voltar ao PowerShell e testar a autenticacao:
 Clonar o repos via SSH:
 
 ```powershell
-git clone git@github.com:<SEU_USER>/pipeline-as-a-service-stack.git
+git clone git@github.com:<SEU_USER>/pipeline-as-a-service.git
 ```
 
 ---
@@ -282,7 +282,7 @@ workshop-secret
 
 ### 4.3 Configurar Secrets no GitHub
 
-**GitHub** → repo `platform-as-a-service-stack2` → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
+**GitHub** → repo `platform-as-a-service` → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
 
 | Secret name | Value |
 |-------------|-------|
@@ -308,7 +308,7 @@ Repetir para as 2 roles:
 
 ## Step 5 — Prompt para Criar a Plataforma com Copilot
 
-### 5.1 Repo: `pipeline-as-a-service-stack`
+### 5.1 Repo: `pipeline-as-a-service`
 
 Abrir o Copilot Chat e enviar:
 
@@ -334,7 +334,7 @@ tools:
 
 # Platform Stack Creation Prompt (Assertive)
 
-Crie uma engenharia de plataforma Azure **identica** ao repo Platform-as-a-Service-Stack, usando Terraform + GitHub Actions, com foco em RBAC-first e naming deterministico.
+Crie uma engenharia de plataforma Azure **identica** ao repo Platform-as-a-Service, usando Terraform + GitHub Actions, com foco em RBAC-first e naming deterministico.
 
 ## Requisitos obrigatorios
 
@@ -394,15 +394,6 @@ terraform/
 - Entregar todos os arquivos completos (main.tf/variables.tf/outputs.tf/providers.tf/backend.tf + modulos)
 - Garantir que Container Apps falhe se observability = false
 ```
-
-### 5.4 Commit e Push (para cada repo)
-
-```bash
-git add .
-git commit -m "initial platform setup"
-git push
-```
-
 ---
 
 ## Step 6 — Setup Backend Terraform no Azure
@@ -453,7 +444,7 @@ git push
 
 > **Nota**: sem essa role **especifica**, a escrita do state no Storage Account falha.
 
-### 6.5 Configurar backend.tf no repo platform-as-a-service-stack
+### 6.5 Configurar backend.tf no repo platform-as-a-service
 
 O arquivo `terraform/backend.tf` deve conter (ajustar nomes):
 
@@ -468,6 +459,15 @@ terraform {
   }
 }
 ```
+
+### Commit e Push
+
+```bash
+git add .
+git commit -m "initial platform setup"
+git push
+```
+---
 
 ## Step 7 — Advanced 
 
