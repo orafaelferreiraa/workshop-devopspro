@@ -80,7 +80,7 @@ graph TD
 
 ## Step 1 — Criar a VM Windows no Azure
 
-![](./img/1.png)
+![](./img/01.jpg)
 
 ### 1.1 Criar Resource Group
 
