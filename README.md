@@ -394,6 +394,80 @@ terraform/
 - Entregar todos os arquivos completos (main.tf/variables.tf/outputs.tf/providers.tf/backend.tf + modulos)
 - Garantir que Container Apps falhe se observability = false
 ```
+
+### 5.2 Modo Avançado: Orquestrador com Contexto em Cascata
+
+> Se você quer o **máximo de assertividade**, existe uma abordagem ainda mais poderosa: usar o **Orchestrator Prompt** que já vem no repo `platform-as-a-service-stack`.
+
+O orquestrador é um prompt especial que **carrega contexto em cascata** antes de executar qualquer tarefa. Ele enfileira automaticamente:
+
+```
+Instructions → Skills → Prompts → Agents → Project Files
+```
+
+Isso significa que o Copilot recebe **todas as regras**, **todo o conhecimento de domínio** e **todos os padrões da plataforma** antes de gerar uma única linha de código.
+
+#### Como usar
+
+**1. Clonar o repo da plataforma (se ainda não fez)**
+
+```powershell
+git clone git@github.com:<SEU_USER>/platform-as-a-service-stack.git
+```
+
+**2. Abrir o repo no VS Code**
+
+```powershell
+code platform-as-a-service-stack
+```
+
+**3. No Copilot Chat, invocar o orquestrador**
+
+O prompt já está configurado em `.github/prompts/orchestrator-prompt.md`. Basta chamar:
+
+```
+@workspace /orchestrator Crie a plataforma completa com todos os recursos habilitados
+```
+
+#### O que o Orquestrador faz por baixo dos panos
+
+| Ordem | Camada | Arquivos | O que faz |
+|-------|--------|----------|-----------|
+| 1️⃣ | **Instructions** | `terraform-platform-instructions.md`, `azure-instructions.md`, `github-actions-platform-instructions.md` | Define as **regras obrigatórias** (naming MD5, uuidv5, time_sleep, etc.) |
+| 2️⃣ | **Skills** | `terraform-platform-stack/SKILL.md`, `azure-platform-stack/SKILL.md`, `github-actions-platform-stack/SKILL.md` | Carrega **conhecimento de domínio** (anti-patterns, best practices, provider schemas) |
+| 3️⃣ | **Prompts** | `terraform-prompt.md`, `azure-prompt.md`, `github-actions-prompt.md` | Define **procedimentos** de execução por domínio |
+| 4️⃣ | **Agents** | `agent.agent.md`, `terraform-agent.md`, `azure-agent.md`, `github-actions-agent.md` | **Executa** com personalidade assertiva (corrige violações sem perguntar) |
+| 5️⃣ | **Project Files** | `terraform/**`, `.github/workflows/**` | Lê o **código existente** para manter consistência |
+
+#### Por que é mais assertivo?
+
+| Prompt simples (5.1) | Orquestrador (5.2) |
+|----------------------|-------------------|
+| Copilot gera baseado no prompt | Copilot carrega **todo o contexto** antes de gerar |
+| Pode desviar dos padrões | Segue **regras + skills + agents** em cascata |
+| Resultado bom | Resultado **idêntico** ao repo de referência |
+| Sem validação automática | Usa **MCPs** (Microsoft Docs, HashiCorp, GitHub) para validar |
+| Gera de uma vez | **Roteia** para o agente especialista certo (Terraform, Azure, GitHub Actions) |
+
+#### Estrutura completa no repo
+
+```
+platform-as-a-service-stack/
+  .github/
+    instructions/          ← Regras obrigatórias
+    skills/                ← Conhecimento de domínio
+    prompts/
+      orchestrator-prompt.md  ← 🎯 Ponto de entrada único
+      terraform-prompt.md
+      azure-prompt.md
+      github-actions-prompt.md
+    agents/                ← Agentes especializados
+    workflows/             ← CI/CD (deploy-plan + deploy-apply)
+  terraform/               ← Código da plataforma
+```
+
+> **Dica**: O orquestrador também funciona para **modificar** a plataforma depois de criada. Peça para adicionar um novo recurso, corrigir um anti-pattern ou debugar um erro — ele vai rotear para o agente certo automaticamente.
+
 ---
 
 ## Step 6 — Setup Backend Terraform no Azure
